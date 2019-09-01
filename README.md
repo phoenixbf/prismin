@@ -1,2 +1,2 @@
 # ixeprism
-Image-based eXchange, Encoding &amp; PRocessing of Interaction States &amp; Mappings
+Image-based eXchange, Encoding and PRocessing of Interaction States and Mappings
