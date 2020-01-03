@@ -1,0 +1,17 @@
+{
+  "name": "prismin",
+  "version": "1.0.0",
+  "description": "",
+  "main": "prismin.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aabb-3d": "^0.1.0",
+    "clamp": "^1.0.1",
+    "euclidean-distance": "^1.0.0",
+    "jimp": "^0.9.3"
+  }
+}

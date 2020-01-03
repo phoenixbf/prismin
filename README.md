@@ -1,4 +1,4 @@
-# prismin
+# PRISMIN
 
 ![Test Image 1](prismin.png)
 
