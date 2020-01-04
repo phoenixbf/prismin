@@ -27,7 +27,7 @@ QA.prototype.setPixel = function(coords, color){
     this._lastCoords = coords;
 };
 
-QA.prototype.writeAtlas = function(){
+QA.prototype.writeAtlasOnDisk = function(){
     this.img.write( this.outfile );
 };
 
