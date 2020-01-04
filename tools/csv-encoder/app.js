@@ -9,7 +9,7 @@ const csv = require('csv-parser');
 const fs = require('fs');
 const glob = require("glob");
 
-const QV = require("../../core/qvolume");
+const QEncoder = require("../../core/qencoder");
 
 
 const optDefs = [
@@ -26,6 +26,8 @@ if (inargs.vol === undefined){
     console.log("No volume list provided. --vol <path/to/qv.json>");
     process.exit();
 }
+
+let Encoder = new QEncoder();
 
 let inputCSVdata = [];
 let numRecords = 0;
@@ -79,6 +81,9 @@ let processAll = function(){
 };
 
 //=============================================================
+
+// Load volumes
+Encoder.addVolumesFromJSON(inargs.vol);
 
 // Load input CSVs
 if (inargs.csv) loadCSV(inargs.csv);

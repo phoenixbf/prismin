@@ -6,26 +6,27 @@
 const distance = require('euclidean-distance');
 const aabb     = require('aabb-3d');
 const clamp    = require('clamp');
+const QAtlas   = require('./qatlas');
 
-const QA       = require('./qatlas');
 
-
-QV = function(){
+QVolume = function(){
     this.name = undefined;
     this.vol = aabb([-1.0, -1.0, -1.0], [1.0, 1.0, 1.0]);
+
+    this.atlases = [];
 };
 
-QV.prototype.setName = function(name){
+QVolume.prototype.setName = function(name){
     this.name = name;
     return this;
 };
 
-QV.prototype.setOriginAndExtents = function(origin,ext){
+QVolume.prototype.setOriginAndExtents = function(origin,ext){
     this.vol = aabb(origin, ext);
     return this;
 };
 
-QV.prototype.getNormLocationInVolume = function(loc){
+QVolume.prototype.getNormLocationInVolume = function(loc){
     var px = (loc[0] - this.vol.x0()) / this.vol.width();
     var py = (loc[1] - this.vol.y0()) / this.vol.height();
     var pz = (loc[2] - this.vol.z0()) / this.vol.depth();
@@ -33,7 +34,7 @@ QV.prototype.getNormLocationInVolume = function(loc){
     return [px,py,pz];
 };
 
-QV.prototype.encodeLocationToColor = function(loc){
+QVolume.prototype.encodeLocationToColor = function(loc){
     var P = this.getNormLocationInVolume(loc);
 
     var col = new Uint8Array(4);
@@ -54,8 +55,29 @@ QV.prototype.encodeLocationToColor = function(loc){
     return col;
 };
 
-QV.prototype.decodeColorToLocation = function(col){
+QVolume.prototype.decodeColorToLocation = function(col){
     // TODO:
 };
 
-module.exports = QV;
+QVolume.prototype.addAtlas = function(A){
+    this.atlases.push(A);
+    return this;
+};
+
+// Call prism operation on all atlases
+QVolume.prototype.prism = function(args){
+    for (let a = 0; a < this.atlases.length; a++) {
+        let A = this.atlases[a];
+
+        A.prism(args);        
+        }
+};
+
+QVolume.prototype.writeAllAtlasesOnDisk = function(){
+    for (let a = 0; a < this.atlases.length; a++) {
+        this.atlases[a].writeAtlasOnDisk();
+        }
+    return this;
+};
+
+module.exports = QVolume;
