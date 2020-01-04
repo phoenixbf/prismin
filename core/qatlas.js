@@ -12,7 +12,8 @@ const QA_LAYOUT_S_SQUARE = 2;
 QA = function(){
     this.img    = new Jimp(64, 64, 0x00000000);
     this.outfile = undefined;
-    
+
+    this.adapter = function(args){ return [0,0]; };
     this.layout = QA_LAYOUT_T_QSA;
 };
 
@@ -21,8 +22,8 @@ QA.prototype.setLayout = function(L){
     return this;
 };
 
-QA.prototype.setPixel = function(i,j, color){
-    this.img.setPixelColor(color, i,j);
+QA.prototype.setPixel = function(coords, color){
+    this.img.setPixelColor(color, coords[0],coords[1]);
 };
 
 QA.prototype.writeAtlas = function(){
