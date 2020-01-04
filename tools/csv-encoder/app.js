@@ -10,6 +10,10 @@ const fs = require('fs');
 const glob = require("glob");
 
 const QEncoder = require("../../core/qencoder");
+const QAtlas = require("../../core/QAtlas");
+const QSA = require("../../core/qsa");
+
+const outFolder = __dirname+"/_OUT/";
 
 
 const optDefs = [
@@ -61,36 +65,60 @@ let onAllRecordsLoaded = function(){
     processAll();
 };
 
-// Process loaded records
-let processAll = function(){
-    for (let u = 0; u < numRecords; u++) {
-        let U = inputCSVdata[u];
+// Process single user record
+let processUserRecord = function(u){
+    let U = inputCSVdata[u];
+    if (!U) return;
 
-        for (let m = 0; m < U.length; m++) {
-            let M = U[m];
+    for (let m = 0; m < U.length; m++){
+        let M = U[m];
 
-            //console.log(M);
-            let t = parseFloat(M.Time);
-            let pos = [parseFloat(M.px),parseFloat(M.py),parseFloat(M.pz)];
-            let foc = [parseFloat(M.fx),parseFloat(M.fy),parseFloat(M.fz)];
-            
-            }
-        
+        //console.log(M);
+        let t = parseFloat(M.Time);
+        let pos = [parseFloat(M.px),parseFloat(M.py),parseFloat(M.pz)];
+        let foc = [parseFloat(M.fx),parseFloat(M.fy),parseFloat(M.fz)];
+
+        let args = {
+            time: t,
+            dt: 0.2,
+            uid: u
+            };
+
+        Encoder.volumes.forEach(V => {
+            args.color = V.encodeLocationToColor(pos);
+            if (args.color) V.prism(args);
+            });
 
         }
+    console.log("Record "+u+" processed.");
+};
+
+// Process all loaded records
+let processAll = function(){
+    for (let u = 0; u < numRecords; u++) processUserRecord(u);
+
+    Encoder.writeAllAtlasesOnDisk();
 };
 
 //=============================================================
 
-// Load volumes
-Encoder.addVolumesFromJSON(inargs.vol);
+// Load volumes and attach atlases
+Encoder.addVolumesFromJSON(inargs.vol, ()=>{
+    for (let v = 0; v < Encoder.volumes.length; v++) {
+        let V = Encoder.volumes[v];
+
+        let A = new QSA();
+        A.outfile = outFolder + "qsa" +v+ ".png";
+
+        V.addAtlas(A);
+        }   
+});
 
 // Load input CSVs
 if (inargs.csv) loadCSV(inargs.csv);
 if (inargs.csvdir){
     let files = glob.sync(inargs.csvdir+'*.csv');
     for (let f = 0; f < files.length; f++){
-        //console.log(files[f]);
         loadCSV( files[f] );
         }
 }

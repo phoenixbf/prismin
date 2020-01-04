@@ -5,59 +5,62 @@
 ==========================================================================*/
 const Jimp = require('jimp');
 
-QAtlas = function(){
-    this._resX = 64;
-    this._resY = 64;
-    this.img    = new Jimp(this._resX, this._resY, 0x00000000);
-    this.outfile = undefined;
+class QAtlas {
+    constructor(){
+        this._resX = 64;
+        this._resY = 64;
+        this.img    = new Jimp(this._resX, this._resY, 0x00000000);
+        this.outfile = undefined;
 
-    this.adapter = function(args){ return [0,0]; };
+        this.adapter = function(args){ return [0,0]; };
+        this.overlay = undefined; // overlay function
 
-    this._lastCoords = undefined;
-};
+        this._lastCoords = undefined;
+        }
 
-QAtlas.prototype.setDimensions = function(X,Y){
-    this._resX = X;
-    this._resY = Y;
-    this.img = new Jimp(this._resX, this._resY, 0x00000000);
-    return this;
-};
+    setDimensions(W,H){
+        this._resX = W;
+        this._resY = H;
+        this.img = new Jimp(this._resX, this._resY, 0x00000000);
+        return this;
+        }
 
-QAtlas.prototype.clear = function(){
-    this.img = new Jimp(this._resX, this._resY, 0x00000000);
-    return this;
-};
+    setPixel(coords, color, ovrfun){
+        let outcol = new Uint8Array(4);
+        outcol[0] = color[0];
+        outcol[1] = color[1];
+        outcol[2] = color[2];
+        outcol[3] = color[3];
 
-QAtlas.prototype.setPixel = function(coords, color){
-    this.img.setPixelColor(color, coords[0],coords[1]);
-    this._lastCoords = coords;
-    return this;
-};
+        // We provided an overlay function
+        if (ovrfun){
+            let pxcol = Jimp.intToRGBA( this.img.getPixelColor(coords[0],coords[1]) );
+            var prevCol = new Uint8Array(4);
+            prevCol[0] = pxcol.r;
+            prevCol[1] = pxcol.g;
+            prevCol[2] = pxcol.b;
+            prevCol[3] = pxcol.a;
 
+            outcol = ovrfun(prevCol, outcol);
+            }
 
-QAtlas.prototype.prism = function(args){
-    this.setPixel( this.adapter(args), args.color );
-    return this;
-};
+        let C = Jimp.rgbaToInt(outcol[0],outcol[1],outcol[2], outcol[3]);
+        this.img.setPixelColor(C, coords[0],coords[1]);
 
-QAtlas.prototype.writeAtlasOnDisk = function(){
-    this.img.write( this.outfile );
-    return this;
-};
+        this._lastCoords = coords;
+        return this;
+        }
 
-// Pre-defined layouts
-QAtlas.prototype.setLayoutQSA = function(dimensions){
-    (dimensions)? this.setDimensions(dimensions[0],dimensions[1]) : this.setDimensions(1024,4096);
-    
-    this._qsaPage = 0;
+    prism(args){
+        this.setPixel( this.adapter(args), args.color, args.ovrfun );
+        return this;
+        }
 
-    this.adapter = function(args){
-        let i = parseInt(args.time / args.dt);
-        let j = args.uid;
-        return [i,j];
-        };
-
-    return this;
-};
+    writeAtlasOnDisk(){
+        this.img.write( this.outfile );
+        console.log("Atlas "+this.outfile+" written.");
+        return this;
+        }
+}
 
 module.exports = QAtlas;
