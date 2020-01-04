@@ -5,31 +5,43 @@
 ==========================================================================*/
 const Jimp = require('jimp');
 
-const QA_LAYOUT_T_QSA    = 0
-const QA_LAYOUT_S_STRIP  = 1;
-const QA_LAYOUT_S_SQUARE = 2;
-
 QA = function(){
-    this.img    = new Jimp(64, 64, 0x00000000);
+    this._resX = 64;
+    this._resY = 64;
+    this.img    = new Jimp(this._resX, this._resY, 0x00000000);
     this.outfile = undefined;
 
     this.adapter = function(args){ return [0,0]; };
-    this.layout = QA_LAYOUT_T_QSA;
+
+    this._lastCoords = undefined;
 };
 
-QA.prototype.setLayout = function(L){
-    this.layout = L;
-    return this;
+QA.prototype.setSize = function(X,Y){
+    this._resX = X;
+    this._resY = Y;
+    this.img = new Jimp(this._resX, this._resY, 0x00000000);
 };
 
 QA.prototype.setPixel = function(coords, color){
     this.img.setPixelColor(color, coords[0],coords[1]);
+    this._lastCoords = coords;
 };
 
 QA.prototype.writeAtlas = function(){
     this.img.write( this.outfile );
 };
 
+// Pre-defined layouts
+/*
+QA.prototype.setLayoutQSA = function(){
+    this.setSize(1024,4096);
+    this.adapter = function(args){
+        let u = args.uid;
+        let t = args.time;
 
+        };
+
+};
+*/
 
 module.exports = QA;
