@@ -1,5 +1,8 @@
 /*
     Quantized Atlas class
+
+    This is used to encode user interaction states in a single image
+
     Author: Bruno Fanini (bruno.fanini__AT__gmail.com)
 
 ==========================================================================*/
@@ -10,10 +13,10 @@ class QAtlas {
         this._resX = 64;
         this._resY = 64;
         this.img    = new Jimp(this._resX, this._resY, 0x00000000);
-        this.outfile = undefined;
 
-        this.adapter = function(args){ return [0,0]; };
-        this.overlay = undefined; // overlay function
+        this.imgext       = ".png";
+        this.imgbasename  = "atlas";
+        this.imgoutfolder = __dirname+"/";
 
         this._lastCoords = undefined;
         }
@@ -25,6 +28,17 @@ class QAtlas {
         return this;
         }
 
+    getPixel(coords){
+        let pxcol = Jimp.intToRGBA( this.img.getPixelColor(coords[0],coords[1]) );
+        let color8 = new Uint8Array(4);
+        color8[0] = pxcol.r;
+        color8[1] = pxcol.g;
+        color8[2] = pxcol.b;
+        color8[3] = pxcol.a;
+
+        return color8;
+        }
+
     setPixel(coords, color, ovrfun){
         let outcol = new Uint8Array(4);
         outcol[0] = color[0];
@@ -32,15 +46,9 @@ class QAtlas {
         outcol[2] = color[2];
         outcol[3] = color[3];
 
-        // We provided an overlay function
+        // If we provided an overlay policy function
         if (ovrfun){
-            let pxcol = Jimp.intToRGBA( this.img.getPixelColor(coords[0],coords[1]) );
-            var prevCol = new Uint8Array(4);
-            prevCol[0] = pxcol.r;
-            prevCol[1] = pxcol.g;
-            prevCol[2] = pxcol.b;
-            prevCol[3] = pxcol.a;
-
+            let prevCol = this.getPixel(coords);
             outcol = ovrfun(prevCol, outcol);
             }
 
@@ -51,14 +59,11 @@ class QAtlas {
         return this;
         }
 
-    prism(args){
-        this.setPixel( this.adapter(args), args.color, args.ovrfun );
-        return this;
-        }
-
-    writeAtlasOnDisk(){
-        this.img.write( this.outfile );
-        console.log("Atlas "+this.outfile+" written.");
+    // Writes the atlas on disk
+    bake(){
+        let outimgpath = this.imgoutfolder + this.imgbasename + this.imgext;
+        this.img.write( outimgpath );
+        console.log("Atlas "+outimgpath+" written.");
         return this;
         }
 }

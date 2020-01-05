@@ -23,6 +23,7 @@ class QEncoder {
         return this;
         }
 
+    // Loads and parse a list of volumes form JSON file
     addVolumesFromJSON(filepath, onComplete){
         let enc = this;
 
@@ -45,17 +46,15 @@ class QEncoder {
         return enc;
         }
 
-    prism(args){
-        for (let v = 0; v < this.volumes.length; v++){
-            this.volumes[v].prism(args);
-            }
-
+    refractAllVolumes(args){
+        let numVolumes = this.volumes.length;
+        for (let v = 0; v < numVolumes; v++) this.volumes[v].refract(args);
         return this;
         }
 
-    writeAllAtlasesOnDisk(){
+    bakeAllVolumes(){
         for (let v = 0; v < this.volumes.length; v++) {
-            this.volumes[v].writeAllAtlasesOnDisk();
+            this.volumes[v].bake();
             }
 
         return this;

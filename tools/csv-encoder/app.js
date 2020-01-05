@@ -1,5 +1,6 @@
 /*
-    PRISMIN CSV Encoder
+    PRISMIN CSV Encoder tool
+
     Author: Bruno Fanini (bruno.fanini__AT__gmail.com)
 
 ==========================================================================*/
@@ -11,7 +12,7 @@ const glob = require("glob");
 
 const QEncoder = require("../../core/qencoder");
 const QAtlas = require("../../core/QAtlas");
-const QSA = require("../../core/qsa");
+const QASP = require("../../core/qasp");
 
 const outFolder = __dirname+"/_OUT/";
 
@@ -80,13 +81,13 @@ let processUserRecord = function(u){
 
         let args = {
             time: t,
-            dt: 0.2,
+            tm: 10.0,
             uid: u
             };
 
         Encoder.volumes.forEach(V => {
             args.color = V.encodeLocationToColor(pos);
-            if (args.color) V.prism(args);
+            if (args.color) V.refract(args);
             });
 
         }
@@ -97,7 +98,7 @@ let processUserRecord = function(u){
 let processAll = function(){
     for (let u = 0; u < numRecords; u++) processUserRecord(u);
 
-    Encoder.writeAllAtlasesOnDisk();
+    Encoder.bakeAllVolumes();
 };
 
 //=============================================================
@@ -107,10 +108,9 @@ Encoder.addVolumesFromJSON(inargs.vol, ()=>{
     for (let v = 0; v < Encoder.volumes.length; v++) {
         let V = Encoder.volumes[v];
 
-        let A = new QSA();
-        A.outfile = outFolder + "qsa" +v+ ".png";
-
-        V.addAtlas(A);
+        let P = new QASP();
+        P.outfolder = outFolder;
+        V.addPrism(P);
         }   
 });
 

@@ -9,21 +9,21 @@ The framework provides *Interaction Volumes* as runtime accessories that can be 
 Here are a few references (bibtex) to cite the research project:
 ```
 @article{fanini2019vire,
-	title={Encoding immersive sessions for online, interactive VR analytics},
-	journal={Virtual Reality},
-	author={Fanini, Bruno and Cinque, Luigi},
-	doi={10.1007/s10055-019-00405-w},
-	url={http://doi.org/10.1007/s10055-019-00405-w},
-	issn={1359-4338},
-	year={2019}
+    title={Encoding immersive sessions for online, interactive VR analytics},
+    journal={Virtual Reality},
+    author={Fanini, Bruno and Cinque, Luigi},
+    doi={10.1007/s10055-019-00405-w},
+    url={http://doi.org/10.1007/s10055-019-00405-w},
+    issn={1359-4338},
+    year={2019}
 }
 
 @inproceedings{fanini2019image,
-  title={An Image-Based Encoding to Record and Track Immersive VR Sessions},
-  author={Fanini, Bruno and Cinque, Luigi},
-  booktitle={International Conference on Computational Science and Its Applications},
-  pages={299--310},
-  year={2019},
-  organization={Springer}
+    title={An Image-Based Encoding to Record and Track Immersive VR Sessions},
+    author={Fanini, Bruno and Cinque, Luigi},
+    booktitle={International Conference on Computational Science and Its Applications},
+    pages={299--310},
+    year={2019},
+    organization={Springer}
 }
 ```
