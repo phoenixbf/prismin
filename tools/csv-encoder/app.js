@@ -75,7 +75,7 @@ let processUserRecord = function(u){
         let M = U[m];
 
         //console.log(M);
-        let t = parseFloat(M.Time);
+        let t   = parseFloat(M.Time);
         let pos = [parseFloat(M.px),parseFloat(M.py),parseFloat(M.pz)];
         let foc = [parseFloat(M.fx),parseFloat(M.fy),parseFloat(M.fz)];
 
@@ -108,7 +108,7 @@ Encoder.addVolumesFromJSON(inargs.vol, ()=>{
     for (let v = 0; v < Encoder.volumes.length; v++) {
         let V = Encoder.volumes[v];
 
-        let P = new QASP();
+        let P = new QASP(4096,512);
         P.outfolder = outFolder;
         V.addPrism(P);
         }   

@@ -59,10 +59,6 @@ class QVolume {
         return col;
         }
 
-    decodeColorToLocation(col){
-        // TODO:
-        }
-
     addPrism(P){
         this.prisms.push(P);
         return this;

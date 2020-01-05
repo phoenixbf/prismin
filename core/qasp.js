@@ -14,19 +14,20 @@ const QSA_STD_USERS    = 1024;
 
 
 class QASP extends Prism {
-    constructor(){
+    constructor(time_res, max_users){
         super();
 
+        this._qsaW = (time_res)? time_res : QSA_STD_TIME_RES;
+        this._qsaH = (max_users)? max_users : QSA_STD_USERS;
+
         this.pages = []; // list of QSAs
-        this.outfolder = undefined;
-        this.ovrfunction = undefined;
         }
 
     getOrCreatePage(i){
         if (this.pages[i]) return this.pages[i];
 
         let A = new QAtlas();
-        A.setDimensions(QSA_STD_TIME_RES,QSA_STD_USERS);
+        A.setDimensions(this._qsaW,this._qsaH);
 
         A.imgoutfolder = this.outfolder;
         A.imgbasename = "qsa"+i;
@@ -40,9 +41,11 @@ class QASP extends Prism {
     refract(args){
         let x = parseInt(args.time * args.tm);
         
-        let i = x % QSA_STD_TIME_RES;
+        let i = x % this._qsaW;
         let j = args.uid;
-        let p = parseInt( Math.floor(x / QSA_STD_TIME_RES) );
+        let p = parseInt( Math.floor(x / this._qsaW) );
+
+        if (j >= this._qsaH) return this;
 
         let A = this.getOrCreatePage(p);
         A.setPixel([i,j], args.color, this.ovrfunction);

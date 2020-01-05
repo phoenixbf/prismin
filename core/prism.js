@@ -6,7 +6,11 @@
 
 class Prism {
     constructor(){
+        // Main output folder
+        this.outfolder = undefined;
 
+        // Overlay policy function
+        this.ovrfunction = undefined;
         }
 
     refract(args){
