@@ -36,6 +36,18 @@ class QVolume {
         return [px,py,pz];
         }
 
+    containsLocation(loc){
+        if (loc[0] < this.vol.x0()) return false;
+        if (loc[1] < this.vol.y0()) return false;
+        if (loc[2] < this.vol.z0()) return false;
+
+        if (loc[0] > this.vol.x1()) return false;
+        if (loc[1] > this.vol.y1()) return false;
+        if (loc[2] > this.vol.z1()) return false;
+
+        return true;
+        }
+
     // Depending on this volume extents, we encode a 3D location
     // TODO: abstract from bit-depth
     encodeLocationToColor(loc){
