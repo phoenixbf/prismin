@@ -26,6 +26,20 @@ npm update
 ## Publications
 Here are a few references (links and bibtex) to cite the research project:
 
+https://www.mdpi.com/2076-3417/10/6/2026
+```
+@article{fanini2020prismin,
+  title={Encoding, Exchange and Manipulation of Captured Immersive VR Sessions for Learning Environments: the PRISMIN Framework},
+  author={Fanini, Bruno and Cinque, Luigi},
+  journal={Applied Sciences},
+  volume={10},
+  number={6},
+  pages={2026},
+  year={2020},
+  publisher={Multidisciplinary Digital Publishing Institute}
+}
+```
+
 https://link.springer.com/article/10.1007%2Fs10055-019-00405-w
 ```
 @article{fanini2019vire,
