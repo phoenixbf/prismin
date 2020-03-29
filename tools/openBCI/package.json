@@ -1,0 +1,16 @@
+{
+  "name": "app-cyton",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app-cyton.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "B. Fanini",
+  "license": "ISC",
+  "dependencies": {
+    "@openbci/cyton": "^2.0.1",
+    "@openbci/utilities": "^1.0.0",
+    "command-line-args": "^5.1.1"
+  }
+}

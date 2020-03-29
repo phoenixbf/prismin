@@ -11,7 +11,7 @@ const fs = require('fs');
 const glob = require("glob");
 
 const QEncoder = require("../../core/qencoder");
-const QAtlas = require("../../core/QAtlas");
+const QAtlas = require("../../core/qatlas");
 const QASP = require("../../core/qasp");
 
 const outFolder = __dirname+"/_OUT/";

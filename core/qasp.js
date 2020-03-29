@@ -32,7 +32,7 @@ class QASP extends Prism {
         A.imgoutfolder = this.outfolder;
         A.imgbasename = "qsa"+i;
 
-        A._lastUserMark = []; // Kepp track of each user last refraction
+        A._lastUserMark = []; // Keep track of each user last refraction
 
         this.pages[i] = A;
         return A;
