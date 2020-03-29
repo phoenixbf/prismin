@@ -1,13 +1,13 @@
 {
-  "name": "app-cyton",
+  "name": "openbci-encoder",
   "version": "1.0.0",
   "description": "",
-  "main": "app-cyton.js",
+  "main": "openbci-encoder.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "B. Fanini",
-  "license": "ISC",
+  "license": "GPL",
   "dependencies": {
     "@openbci/cyton": "^2.0.1",
     "@openbci/utilities": "^1.0.0",

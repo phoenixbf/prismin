@@ -1,5 +1,6 @@
 /*
-    PRISMIN OpenBCI/Cyton Encoder tool
+    PRISMIN OpenBCI Encoder tool
+    based on OpenBCI Node.js Cyton SDK (https://github.com/OpenBCI/OpenBCI_NodeJS_Cyton)
 
     Author: Bruno Fanini (bruno.fanini__AT__gmail.com)
 
@@ -11,40 +12,48 @@ const commandLineArgs = require('command-line-args');
 const QVOSP = require("./qvosp");
 
 const outFolder = __dirname+"/_OUT/";
-const APP_WRITE_INTERVAL = 4000; // millsec.
 
 let vRange = [undefined,undefined];
 let ti = 0;
+let tWriteInterval = 4000; // millsec.
 let port = Constants.OBCISimulatorPortName;
 
 
 const optDefs = [
-    { name: 'channels', type: Number}, // no. channels
+//  { name: 'channels', type: Number}, // no. channels
     { name: 'port', type: String},  // Port name 
-//  { name: 'sim', type: Boolean}   // Simulate
+//  { name: 'b', type: Boolean}   //
 ];
 const inargs = commandLineArgs(optDefs);
 
 const ourBoard = new Cyton({
     verbose: true,
     boardType: "daisy",
-    hardSet: true
+    hardSet: true,
+    simulatorDaisyModuleAttached: true
 });
 
+// We instantiate our custom voltage prism
 let vPrism = new QVOSP();
 vPrism.outfolder = outFolder;
+
 
 // If port provided connect to port, else try autofind
 if (inargs.port) port = inargs.port;
 else {
-    ourBoard.autoFindOpenBCIBoard().then(portName => {
-        if (portName){
-            port = portName;
-            }
-        else {
-            // Unable to auto find OpenBCI board
-            }
-        });
+    ourBoard.autoFindOpenBCIBoard()
+        .then(portName => {
+            if (portName){
+                port = portName;
+                }
+            else {
+                // Unable to auto find OpenBCI board
+                }
+            })
+        .catch(err => {
+            // Could not autofind
+            console.log(err);
+            });
 }
 
 // Connect to BCI board
@@ -53,7 +62,7 @@ ourBoard.connect(port)
 
         ourBoard.streamStart()
             .then(()=>{
-                console.log("Stream START");
+                console.log("Stream started!");
                 })
             .catch(err => {
                 console.log(`Stream start ERROR: ${err}`);
@@ -86,7 +95,10 @@ ourBoard.connect(port)
         console.log(err);
 });
 
+
+
+// Write encoded data on disk
 setInterval(()=>{
-    console.log("Tick");
+    //console.log("Tick");
     vPrism.bake();
-}, APP_WRITE_INTERVAL);
+}, tWriteInterval);

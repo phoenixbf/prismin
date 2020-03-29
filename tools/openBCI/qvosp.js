@@ -20,7 +20,6 @@ class QVOSP extends Prism {
         this._qsaH = (max_channels)? max_channels : QSA_STD_CHANNELS;
 
         this.pages = [];
-        this._tind = 0;
 
         this._vRange = [-0.0002,0.0002];
         }
@@ -102,7 +101,7 @@ class QVOSP extends Prism {
     bake(){
         for (const p in this.pages){
             if (this.pages[p]){
-                console.log("Baking QVS #"+p);
+                console.log("Baking data into QVS #"+p);
                 this.pages[p].bake();
                 }
             }
