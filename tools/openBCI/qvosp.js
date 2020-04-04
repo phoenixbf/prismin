@@ -7,12 +7,12 @@
 
 ==========================================================================*/
 const QAtlas = require('../../core/qatlas');
-const Prism  = require('../../core/prism');
+const QPrism  = require('../../core/qprism');
 
 const QSA_STD_TIME_RES = 4096;
 const QSA_STD_CHANNELS = 16;
 
-class QVOSP extends Prism {
+class QVOSP extends QPrism {
     constructor(time_res, max_channels){
         super();
 

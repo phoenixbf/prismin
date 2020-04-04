@@ -1,10 +1,10 @@
 /*
-    Prism base class
+    QPrism base class
     Author: Bruno Fanini (bruno.fanini__AT__gmail.com)
 
 ==========================================================================*/
 
-class Prism {
+class QPrism {
     constructor(){
         // Main output folder
         this.outfolder = undefined;
@@ -26,4 +26,4 @@ class Prism {
 }
 
 
-module.exports = Prism;
+module.exports = QPrism;

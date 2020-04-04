@@ -7,13 +7,13 @@
 
 ==========================================================================*/
 const QAtlas = require('./qatlas');
-const Prism  = require('./prism');
+const QPrism  = require('./qprism');
 
 const QSA_STD_TIME_RES = 4096;
 const QSA_STD_USERS    = 1024;
 
 
-class QASP extends Prism {
+class QASP extends QPrism {
     constructor(time_res, max_users){
         super();
 

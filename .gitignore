@@ -62,3 +62,5 @@ typings/
 
 #Custom PRISMIN
 _OUT
+*.psd
+_cov_series.json

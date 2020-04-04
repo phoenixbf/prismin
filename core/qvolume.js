@@ -6,7 +6,7 @@
 const distance = require('euclidean-distance');
 const aabb     = require('aabb-3d');
 const clamp    = require('clamp');
-const Prism   = require('./prism');
+const QPrism   = require('./qprism');
 
 class QVolume {
     constructor(){
