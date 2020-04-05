@@ -12,7 +12,7 @@ const fs = require('fs');
 const glob = require("glob");
 const getJSON = require('get-json');
 
-const COVP = require("./cov-prism");
+const COVP     = require("./cov-prism");
 
 const outFolder = __dirname+"/_OUT/";
 const inputdata = __dirname+"/_cov_series.json";
@@ -64,6 +64,8 @@ let run = function (){
         if (bUseGlobalRanges || matchingStates.length<1 || matchingStates.indexOf(sn) > -1){
             numDays = state.length;
 
+            //console.log(sn);
+
             // For each day
             for (let i = startDay; i < numDays; i++){
                 const day = state[i];
@@ -88,6 +90,7 @@ let run = function (){
                     if (Dr > covPrism.deltaRecovered[1]) covPrism.deltaRecovered[1] = Dr;
                     }
 
+                // Find min,max for c,d,r
                 if (!covPrism.rangeDeaths[0] || d<covPrism.rangeDeaths[0]) covPrism.rangeDeaths[0] = d;
                 if (!covPrism.rangeDeaths[1] || d>covPrism.rangeDeaths[1]) covPrism.rangeDeaths[1] = d;
 
@@ -107,17 +110,13 @@ let run = function (){
     console.log("Range Recovered: "+covPrism.rangeRecovered);
     console.log("Num. days: "+numDays);
 
-/*
-    if (Delta>0){
-        covPrism.maxDeltaConfirmed = (covPrism.rangeConfirmed[1]-covPrism.rangeConfirmed[0]) * Delta;
-        covPrism.maxDeltaDeaths    = (covPrism.rangeDeaths[1]-covPrism.rangeDeaths[0]) * Delta;
-        covPrism.maxDeltaRecovered = (covPrism.rangeRecovered[1]-covPrism.rangeRecovered[0]) * Delta;
+    if (bDelta){
+        console.log("Delta confirmed: "+covPrism.deltaConfirmed);
+        console.log("Delta deaths: "+covPrism.deltaDeaths);
+        console.log("Delta recovered: "+covPrism.deltaRecovered);
         }
-*/
-    console.log("Delta confirmed: "+covPrism.deltaConfirmed);
-    console.log("Delta deaths: "+covPrism.deltaDeaths);
-    console.log("Delta recovered: "+covPrism.deltaRecovered);
-
+    
+    // Resize COV-QSA
     covPrism.setDimensions(numDays,numStates);
 
     // Encode

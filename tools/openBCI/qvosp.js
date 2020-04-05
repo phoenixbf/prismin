@@ -76,7 +76,7 @@ class QVOSP extends QPrism {
         A.imgoutfolder = this.outfolder;
         A.imgbasename = "qvs"+i;
 
-        A._lastUserMark = []; // Kepp track of each user last refraction
+        A._lastUserMark = []; // Keep track of each user last refraction
 
         this.pages[i] = A;
         return A;

@@ -13,7 +13,7 @@ class QVolume {
         this.name = undefined;
         this.vol = aabb([-1.0, -1.0, -1.0], [1.0, 1.0, 1.0]);
 
-        // Here is the list of our prisms
+        // Here is the list of our bounded prisms
         // each Prism may refract user interactions differently
         this.prisms = [];
         }

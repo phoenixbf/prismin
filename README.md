@@ -4,7 +4,7 @@
 
 The PRISMIN (Processing and transfeR of Interaction States and Mappings through Image-based eNcoding) framework, allows to encode users' interaction states and mappings into compact and lightweight images, easily *manipulable* and *transferable* between peers in networked contexts.
 
-The framework - based on [Node.js](https://nodejs.org/) - provides **Interaction Volumes** (`QVolume class`) as runtime accessories that can be arranged and deployed in virtual 3D scenes to capture or influence user interactions within specific areas. **Interaction Prisms** (`Prism class`) can be used to *refract* interaction states and *bake* them into images.
+The framework - based on [Node.js](https://nodejs.org/) - provides **Interaction Volumes** (`QVolume class`) as runtime accessories that can be arranged and deployed in virtual 3D scenes to capture or influence user interactions within specific areas. **Interaction Prisms** (`QPrism class`) can be used to *refract* interaction states and *bake* them into images.
 
 ![Test Image 1](./res/prismin-banner-h.jpg)
 

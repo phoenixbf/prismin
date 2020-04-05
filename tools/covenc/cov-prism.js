@@ -26,12 +26,6 @@ class COVP extends QPrism {
         this.rangeRecovered = [0,1];
         this.rangeConfirmed = [0,1];
 
-        //this.maxDelta = 1000;
-/*
-        this.maxDeltaDeaths    = 1;
-        this.maxDeltaRecovered = 1;
-        this.maxDeltaConfirmed = 1;
-*/
         this.deltaDeaths    = [-1,1];
         this.deltaRecovered = [-1,1];
         this.deltaConfirmed = [-1,1];
@@ -64,16 +58,16 @@ class COVP extends QPrism {
         col[2] = 0;
         
         // Deaths
-        if (bDelta) col[0] = this.quantizeInRange(d, this.deltaDeaths); //Math.min( parseInt((d / this.maxDelta) * 255.0), 255);
-        else col[0] = this.quantizeInRange(d, this.rangeDeaths); //Math.min( parseInt((d / this.maxDeaths) * 255.0), 255);
+        if (bDelta) col[0] = this.quantizeInRange(d, this.deltaDeaths);
+        else col[0] = this.quantizeInRange(d, this.rangeDeaths);
         
         // Recovered
-        if (bDelta) col[1] = this.quantizeInRange(r, this.deltaRecovered); //Math.min( parseInt((r / this.maxDelta) * 255.0), 255);
-        else col[1] = this.quantizeInRange(r, this.rangeRecovered); //Math.min( parseInt((r / this.maxRecovered) * 255.0), 255);
+        if (bDelta) col[1] = this.quantizeInRange(r, this.deltaRecovered);
+        else col[1] = this.quantizeInRange(r, this.rangeRecovered);
         
         // Confirmed
-        if (bDelta) col[2] = this.quantizeInRange(c, this.deltaConfirmed); //Math.min( parseInt((c / this.maxDelta) * 255.0), 255);
-        else col[2] = this.quantizeInRange(c, this.rangeConfirmed); //Math.min( parseInt((c / this.maxConfirmed) * 255.0), 255);
+        if (bDelta) col[2] = this.quantizeInRange(c, this.deltaConfirmed);
+        else col[2] = this.quantizeInRange(c, this.rangeConfirmed);
         
         col[3] = 255;
 

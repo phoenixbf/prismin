@@ -98,7 +98,7 @@ let processUserRecord = function(u){
 let processAll = function(){
     for (let u = 0; u < numRecords; u++) processUserRecord(u);
 
-    Encoder.bakeAllVolumes();
+    Encoder.bakeAllBounded();
 };
 
 //=============================================================
