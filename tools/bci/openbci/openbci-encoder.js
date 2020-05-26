@@ -9,7 +9,7 @@ const Cyton           = require("@openbci/cyton");
 const Constants       = require("@openbci/utilities").constants;
 const commandLineArgs = require('command-line-args');
 
-const QVOSP = require("./qvosp");
+const QVOSP = require("./../qvosp");
 
 const outFolder = __dirname+"/_OUT/";
 
@@ -21,6 +21,7 @@ let port = Constants.OBCISimulatorPortName;
 
 const optDefs = [
 //  { name: 'channels', type: Number}, // no. channels
+    { name: 'uid', type: Number}, // user ID
     { name: 'port', type: String},  // Port name 
 //  { name: 'b', type: Boolean}   //
 ];
@@ -35,6 +36,10 @@ const ourBoard = new Cyton({
 
 // We instantiate our custom voltage prism
 let vPrism = new QVOSP();
+if (inargs.uid){
+    console.log("User #"+inargs.uid);
+    vPrism.setUserID( parseInt(inargs.uid) );
+    }
 vPrism.outfolder = outFolder;
 
 
