@@ -27,6 +27,9 @@ class QAtlas {
         this.img = new Jimp(this._resX, this._resY, 0x00000000);
         return this;
         }
+    getDimensions(){
+        return { w: this._resX, h: this._resY };
+    }
 
     getPixel(coords){
         let pxcol = Jimp.intToRGBA( this.img.getPixelColor(coords[0],coords[1]) );
@@ -58,6 +61,17 @@ class QAtlas {
         this._lastCoords = coords;
         return this;
         }
+
+    resize(w,h, bNearest){
+        if (bNearest) this.img.resize(w, h, Jimp.RESIZE_NEAREST_NEIGHBOR);
+        else this.img.resize(w, h, Jimp.RESIZE_BILINEAR);
+
+        this._resX = w;
+        this._resY = h;
+    }
+    crop(x, y, w, h){
+        this.img.crop(x, y, w, h);
+    }
 
     // Writes the atlas on disk
     bake(){

@@ -44,7 +44,7 @@ class COVP extends QPrism {
 
     quantizeInRange(d, range){
         let delta = range[1]-range[0];
-        let e = (d + range[0])/delta;
+        let e = (d - range[0])/delta;
         if (e < 0.0) e = 0.0;
         if (e > 1.0) e = 1.0;
 

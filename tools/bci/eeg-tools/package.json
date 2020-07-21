@@ -10,7 +10,9 @@
   "license": "ISC",
   "dependencies": {
     "command-line-args": "^5.1.1",
-    "csv-parser": "^2.3.2",
-    "glob": "^7.1.6"
+    "csv-parser": "^2.3.3",
+    "glob": "^7.1.6",
+    "jimp": "^0.14.0",
+    "path": "^0.12.7"
   }
 }
