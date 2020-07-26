@@ -79,26 +79,42 @@ let run = function (){
                     let Dd = parseInt(d - state[i-1].deaths);
                     let Dc = parseInt(c - state[i-1].confirmed);
                     let Dr = parseInt(r - state[i-1].recovered);
+/* Global
+                    if (Dd < covPrism.pRangeDelta.min) covPrism.pRangeDelta.setMin(Dd);
+                    if (Dc < covPrism.pRangeDelta.min) covPrism.pRangeDelta.setMin(Dc);
+                    if (Dr < covPrism.pRangeDelta.min) covPrism.pRangeDelta.setMin(Dr);
 
-                    if (Dd < covPrism.deltaDeaths[0]) covPrism.deltaDeaths[0] = Dd;
-                    if (Dd > covPrism.deltaDeaths[1]) covPrism.deltaDeaths[1] = Dd;
+                    if (Dd > covPrism.pRangeDelta.max) covPrism.pRangeDelta.setMax(Dd);
+                    if (Dc > covPrism.pRangeDelta.max) covPrism.pRangeDelta.setMax(Dc);
+                    if (Dr > covPrism.pRangeDelta.max) covPrism.pRangeDelta.setMax(Dr);
+*/
+                    if (Dd < covPrism.deltaDeaths.min) covPrism.deltaDeaths.setMin(Dd);
+                    if (Dd > covPrism.deltaDeaths.max) covPrism.deltaDeaths.setMax(Dd);
 
-                    if (Dc < covPrism.deltaConfirmed[0]) covPrism.deltaConfirmed[0] = Dc;
-                    if (Dc > covPrism.deltaConfirmed[1]) covPrism.deltaConfirmed[1] = Dc;
+                    if (Dc < covPrism.deltaConfirmed.min) covPrism.deltaConfirmed.setMin(Dc);
+                    if (Dc > covPrism.deltaConfirmed.max) covPrism.deltaConfirmed.setMax(Dc);
 
-                    if (Dr < covPrism.deltaRecovered[0]) covPrism.deltaRecovered[0] = Dr;
-                    if (Dr > covPrism.deltaRecovered[1]) covPrism.deltaRecovered[1] = Dr;
+                    if (Dr < covPrism.deltaRecovered.min) covPrism.deltaRecovered.setMin(Dr);
+                    if (Dr > covPrism.deltaRecovered.max) covPrism.deltaRecovered.setMax(Dr);
                     }
+/* Global
+                if (d < covPrism.pRange.min) covPrism.pRange.setMin(d);
+                if (c < covPrism.pRange.min) covPrism.pRange.setMin(c);
+                if (r < covPrism.pRange.min) covPrism.pRange.setMin(r);
 
+                if (d > covPrism.pRange.max) covPrism.pRange.setMax(d);
+                if (c > covPrism.pRange.max) covPrism.pRange.setMax(c);
+                if (r > covPrism.pRange.max) covPrism.pRange.setMax(r);
+*/
                 // Find min,max for c,d,r
-                if (!covPrism.rangeDeaths[0] || d<covPrism.rangeDeaths[0]) covPrism.rangeDeaths[0] = d;
-                if (!covPrism.rangeDeaths[1] || d>covPrism.rangeDeaths[1]) covPrism.rangeDeaths[1] = d;
+                if (d<covPrism.rangeDeaths.min) covPrism.rangeDeaths.setMin(d);
+                if (d>covPrism.rangeDeaths.max) covPrism.rangeDeaths.setMax(d);
 
-                if (!covPrism.rangeConfirmed[0] || c<covPrism.rangeConfirmed[0]) covPrism.rangeConfirmed[0] = c;
-                if (!covPrism.rangeConfirmed[1] || c>covPrism.rangeConfirmed[1]) covPrism.rangeConfirmed[1] = c;
+                if (c<covPrism.rangeConfirmed.min) covPrism.rangeConfirmed.setMin(c);
+                if (c>covPrism.rangeConfirmed.max) covPrism.rangeConfirmed.setMax(c);
 
-                if (!covPrism.rangeRecovered[0] || r<covPrism.rangeRecovered[0]) covPrism.rangeRecovered[0] = r;
-                if (!covPrism.rangeRecovered[1] || r>covPrism.rangeRecovered[1]) covPrism.rangeRecovered[1] = r;
+                if (r<covPrism.rangeRecovered.min) covPrism.rangeRecovered.setMin(r);
+                if (r>covPrism.rangeRecovered.max) covPrism.rangeRecovered.setMax(r);
                 }
             }
 

@@ -5,7 +5,8 @@
 
 ==========================================================================*/
 const QAtlas = require('../../core/qatlas');
-const QPrism  = require('../../core/qprism');
+const QPrism = require('../../core/qprism');
+const QRange = require('../../core/qrange');
 
 const QSA_STD_TIME_RES = 128;
 const QSA_STD_STATES   = 256;
@@ -22,13 +23,16 @@ class COVP extends QPrism {
         this._qsa.imgoutfolder = this.outfolder;
         this._qsa.imgbasename = "cov-qsa";
 
-        this.rangeDeaths    = [0,1];
-        this.rangeRecovered = [0,1];
-        this.rangeConfirmed = [0,1];
+        this.rangeDeaths    = new QRange(0,1);
+        this.rangeRecovered = new QRange(0,1);
+        this.rangeConfirmed = new QRange(0,1);
 
-        this.deltaDeaths    = [-1,1];
-        this.deltaRecovered = [-1,1];
-        this.deltaConfirmed = [-1,1];
+        this.deltaDeaths    = new QRange(-1,1); //[-1,1];
+        this.deltaRecovered = new QRange(-1,1); //[-1,1];
+        this.deltaConfirmed = new QRange(-1,1); //[-1,1];
+
+        this.pRange      = new QRange(0,1);
+        this.pRangeDelta = new QRange(-1,1);
         }
 
     setDimensions(w,h){
@@ -58,16 +62,28 @@ class COVP extends QPrism {
         col[2] = 0;
         
         // Deaths
-        if (bDelta) col[0] = this.quantizeInRange(d, this.deltaDeaths);
-        else col[0] = this.quantizeInRange(d, this.rangeDeaths);
+        if (bDelta) 
+            col[0] = this.deltaDeaths.quantize(d);
+            //col[0] = this.pRangeDelta.quantize(d);
+        else 
+            col[0] = this.rangeDeaths.quantize(d);
+            //col[0] = this.pRange.quantize(d);
         
         // Recovered
-        if (bDelta) col[1] = this.quantizeInRange(r, this.deltaRecovered);
-        else col[1] = this.quantizeInRange(r, this.rangeRecovered);
+        if (bDelta) 
+            col[1] = this.deltaRecovered.quantize(r);
+            //col[1] = this.pRangeDelta.quantize(r);
+        else 
+            col[1] = this.rangeRecovered.quantize(r);
+            //col[1] = this.pRange.quantize(r);
         
         // Confirmed
-        if (bDelta) col[2] = this.quantizeInRange(c, this.deltaConfirmed);
-        else col[2] = this.quantizeInRange(c, this.rangeConfirmed);
+        if (bDelta) 
+            col[2] = this.deltaConfirmed.quantize(c);
+            //col[2] = this.pRangeDelta.quantize(c);
+        else 
+            col[2] = this.rangeConfirmed.quantize(c);
+            //col[2] = this.pRange.quantize(c);
         
         col[3] = 255;
 

@@ -7,7 +7,8 @@
 
 ==========================================================================*/
 const QAtlas = require('../../core/qatlas');
-const QPrism  = require('../../core/qprism');
+const QPrism = require('../../core/qprism');
+const QRange = require('../../core/qrange');
 
 const QSA_STD_TIME_RES = 4096;
 const QSA_STD_CHANNELS = 16;
@@ -23,8 +24,10 @@ class QVOSP extends QPrism {
         this.trials = [];
         //this.pages = [];
 
-        this._vRange  = [-0.0002,0.0002];
-        this._vRangeD = 0.0004;
+        //this._vRange  = [-0.0002,0.0002];
+        //this._vRangeD = 0.0004;
+        this._vRange = new QRange(-0.0002,0.0002);
+        this._vRangeHalfPos = new QRange(0.0, this._vRange.delta*0.5);
 
         this._wResize = 0;
         this._wCrop   = 0.0;
@@ -43,10 +46,12 @@ class QVOSP extends QPrism {
 
     setVoltageRange(min,max){
         if (max <= min) return;
-        this._vRange  = [min,max];
-        this._vRangeD = (max-min);
+
+        this._vRange = new QRange(min,max);
+        this._vRangeHalfPos = new QRange(0.0, this._vRange.delta*0.5);
     }
 
+/*
     quantizeInRange(v, range){
         let delta = range[1]-range[0];
         let e = (v - range[0])/delta;
@@ -55,7 +60,7 @@ class QVOSP extends QPrism {
 
         return parseInt(e * 255.0);
     }
-
+*/
     encodeChannelThreeBand(v){
         let col = new Uint8Array(4);
         col[0] = 0;
@@ -97,22 +102,17 @@ class QVOSP extends QPrism {
 
         if (d === undefined) return col;
 
-        let R = this._vRangeD * 0.25;
-
-        //d = Math.min(Math.max(d, -R), R);
-        //v = Math.min(Math.max(v, this._vRange[0]), this._vRange[1]);
+        //let R = new QRange(0.0, this._vRange.delta*0.5);
 
         if (d >= 0.0){
-            col[1] = this.quantizeInRange(d, [0.0,R]);
+            col[1] = this._vRangeHalfPos.quantize(d); //this.quantizeInRange(d, R);
         }
         else {
-            col[0] = this.quantizeInRange(-d, [0.0,R]);
+            col[0] = this._vRangeHalfPos.quantize(-d); //this.quantizeInRange(-d, R);
         }
 
         if (v){
-            //let q = parseInt(((v + this._vRange[0]) / this._vRangeD) * 255.0);
-            //q = Math.min(Math.max(q, 0), 255);
-            col[2] = this.quantizeInRange(v, this._vRange);
+            col[2] = this._vRange.quantize(v); //this.quantizeInRange(v, this._vRange);
         }
 
         return col;
@@ -125,22 +125,16 @@ class QVOSP extends QPrism {
         col[2] = 0;
         col[3] = 255;
 
-        if (v < this._vRange[0]) v = this._vRange[0];
-        if (v > this._vRange[1]) v = this._vRange[1];
-
         if (bbw){
-            //let q = parseInt(((v + this._vRange[0]) / this._vRangeD) * 255.0);
-            let q = this.quantizeInRange(v, this._vRange);
+            let q = this._vRange.quantize(v);
 
             col[0] = q;
             col[1] = q;
             col[2] = q;
             }
         else {
-            if (v < 0.0) 
-                col[0] = this.quantizeInRange(-v, [0.0,this._vRangeD*0.5]);
-            else 
-                col[1] = this.quantizeInRange(v, [0.0,this._vRangeD*0.5]);
+            if (v < 0.0) col[0] = this._vRangeHalfPos.quantize(-v);
+            else         col[1] = this._vRangeHalfPos.quantize(v);
             }
 
         return col;
@@ -198,9 +192,14 @@ class QVOSP extends QPrism {
                     console.log("Baking data for trial #"+t+" into QVS #"+p);
 
                     if (this._wResize > 0) A.resize(this._wResize, this._qsaH);
+
                     if (this._wCrop > 0.0){
-                        let wcut = parseInt(A.getDimensions().w * this._wCrop);
-                        A.crop(wcut,0, A.getDimensions().w - (wcut*2.0),A.getDimensions().h);
+                        let aw = A.getDimensions().w;
+                        let ah = A.getDimensions().h;
+                        let cutstart = parseInt(aw * this._wCrop);
+                        let cutw = aw - (aw * this._wCrop * 2.0);
+
+                        A.crop(cutstart,0, cutw,ah);
                         }
 
                     A.bake();

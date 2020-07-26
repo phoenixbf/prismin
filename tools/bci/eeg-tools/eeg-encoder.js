@@ -52,7 +52,9 @@ let loadCSV = function(filepath, onComplete){
 
     let IFile = path.parse(filepath);
     let basename = IFile.name;
-    let trialid = parseInt( basename.replace("djc_eeg", "") ); // expose trial string param
+    
+    //let trialid = parseInt( basename.replace("djc_eeg", "") ); // expose trial string param
+    let trialid = parseInt( basename.replace(/\D/g,'') ); 
     //console.log(trialid);
 
     console.log("Loading file "+filepath);
@@ -103,9 +105,9 @@ let processRecord = function(r){
             if (!vRange[0] || v < vRange[0]) vRange[0] = v;
             if (!vRange[1] || v > vRange[1]) vRange[1] = v;
 
-            let c = vPrism.encodeChannelValue(v, false);
+            //let c = vPrism.encodeChannelValue(v, false);
+            let c = vPrism.encodeChannelDelta(vDelta, v);
             //let c = vPrism.encodeChannelThreeBand(v);
-            //let c = vPrism.encodeChannelDelta(vDelta, v);
 
             vPrism.refract({color: c, uid: 0, trial: r, chanid: ch, tind: t});
             vPrev = v;

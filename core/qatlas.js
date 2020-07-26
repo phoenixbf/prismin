@@ -19,14 +19,14 @@ class QAtlas {
         this.imgoutfolder = __dirname+"/";
 
         this._lastCoords = undefined;
-        }
+    }
 
     setDimensions(W,H){
         this._resX = W;
         this._resY = H;
         this.img = new Jimp(this._resX, this._resY, 0x00000000);
         return this;
-        }
+    }
     getDimensions(){
         return { w: this._resX, h: this._resY };
     }
@@ -40,7 +40,7 @@ class QAtlas {
         color8[3] = pxcol.a;
 
         return color8;
-        }
+    }
 
     setPixel(coords, color, ovrfun){
         let outcol = new Uint8Array(4);
@@ -53,14 +53,14 @@ class QAtlas {
         if (ovrfun){
             let prevCol = this.getPixel(coords);
             outcol = ovrfun(prevCol, outcol);
-            }
+        }
 
         let C = Jimp.rgbaToInt(outcol[0],outcol[1],outcol[2], outcol[3]);
         this.img.setPixelColor(C, coords[0],coords[1]);
 
         this._lastCoords = coords;
         return this;
-        }
+    }
 
     resize(w,h, bNearest){
         if (bNearest) this.img.resize(w, h, Jimp.RESIZE_NEAREST_NEIGHBOR);
@@ -79,7 +79,7 @@ class QAtlas {
         this.img.write( outimgpath );
         console.log("Atlas "+outimgpath+" written.");
         return this;
-        }
+    }
 }
 
 module.exports = QAtlas;

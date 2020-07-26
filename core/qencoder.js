@@ -13,7 +13,7 @@ class QEncoder {
         this.prisms  = [];
 
         this.outfolder = outfolder;
-        }
+    }
 
     addVolume(position, extents, name){
         let V = new QVolume();
@@ -24,7 +24,7 @@ class QEncoder {
         this.volumes.push(V);
 
         return this;
-        }
+    }
 
     // Loads and parse a list of volumes form JSON file
     addVolumesFromJSON(filepath, onComplete){
@@ -39,45 +39,45 @@ class QEncoder {
                         let V = QVdata.list[v];
 
                         enc.addVolume(V.position, V.extents, V.name);
-                        }
                     }
                 }
+            }
 
             if (onComplete) onComplete();
-            });
+        });
 
         return enc;
-        }
+    }
 
     addUnboundedPrism(P){
         if (!P) return;
         if (this.outfolder) P.outfolder = this.outfolder;
         this.prisms.push(P);
         return this;
-        }
+    }
 
     refractAllBounded(args){
         let numVolumes = this.volumes.length;
         for (let v = 0; v < numVolumes; v++) this.volumes[v].refract(args);
         return this;
-        }
+    }
 
     bakeAllBounded(){
         for (let v = 0; v < this.volumes.length; v++) this.volumes[v].bake();
         return this;
-        }
+    }
 
     refractAllUnbounded(args){
         let numPrisms = this.prisms.length;
         for (let p = 0; p < numPrisms; p++) this.prisms[p].refract(args);
         return this;
-        }
+    }
     
     bakeAllUnbounded(){
         let numPrisms = this.prisms.length;
         for (let p = 0; p < numPrisms; p++) this.prisms[p].bake(args);
         return this;
-        }
+    }
 
 }
 

@@ -13,7 +13,7 @@ class QPrism {
 
         // Overlay policy function
         this.ovrfunction = undefined;
-        }
+    }
 
     setOutFolder(dir){
         if (!fs.existsSync(dir)) fs.mkdirSync(dir);
