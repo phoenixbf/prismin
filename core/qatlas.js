@@ -31,6 +31,10 @@ class QAtlas {
         return { w: this._resX, h: this._resY };
     }
 
+    clear(hexcol){
+        this.img = new Jimp(this._resX, this._resY, hexcol);
+    }
+
     getPixel(coords){
         let pxcol = Jimp.intToRGBA( this.img.getPixelColor(coords[0],coords[1]) );
         let color8 = new Uint8Array(4);

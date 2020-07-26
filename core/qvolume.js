@@ -5,7 +5,7 @@
 ==========================================================================*/
 const distance = require('euclidean-distance');
 const aabb     = require('aabb-3d');
-const clamp    = require('clamp');
+//const clamp    = require('clamp');
 const QPrism   = require('./qprism');
 
 class QVolume {
@@ -16,17 +16,17 @@ class QVolume {
         // Here is the list of our bounded prisms
         // each Prism may refract user interactions differently
         this.prisms = [];
-        }
+    }
 
     setName(name){
         this.name = name;
         return this;
-        }
+    }
 
     setOriginAndExtents(origin,ext){
         this.vol = aabb(origin, ext);
         return this;
-        }
+    }
 
     getNormLocationInVolume(loc){
         var px = (loc[0] - this.vol.x0()) / this.vol.width();
@@ -34,7 +34,7 @@ class QVolume {
         var pz = (loc[2] - this.vol.z0()) / this.vol.depth();
 
         return [px,py,pz];
-        }
+    }
 
     containsLocation(loc){
         if (loc[0] < this.vol.x0()) return false;
@@ -46,7 +46,7 @@ class QVolume {
         if (loc[2] > this.vol.z1()) return false;
 
         return true;
-        }
+    }
 
     // Depending on this volume extents, we encode a 3D location
     // TODO: abstract from bit-depth
@@ -69,26 +69,26 @@ class QVolume {
         col[3] = 255;
 
         return col;
-        }
+    }
 
     addPrism(P){
         this.prisms.push(P);
         return this;
-        }
+    }
 
     // Refract all prisms
     refract(args){
         let numPrisms = this.prisms.length;
         for (let p = 0; p < numPrisms; p++) this.prisms[p].refract(args);
         return this;
-        }
+    }
 
     // Bake all prisms
     bake(){
         let numPrisms = this.prisms.length;
         for (let p = 0; p < numPrisms; p++) this.prisms[p].bake();
         return this;
-        }
+    }
 
 }
 

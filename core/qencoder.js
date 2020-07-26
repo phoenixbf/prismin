@@ -51,7 +51,7 @@ class QEncoder {
 
     addUnboundedPrism(P){
         if (!P) return;
-        if (this.outfolder) P.outfolder = this.outfolder;
+        if (this.outfolder) P.setOutFolder(this.outfolder);
         this.prisms.push(P);
         return this;
     }

@@ -106,7 +106,8 @@ let processRecord = function(r){
             if (!vRange[1] || v > vRange[1]) vRange[1] = v;
 
             //let c = vPrism.encodeChannelValue(v, false);
-            let c = vPrism.encodeChannelDelta(vDelta, v);
+            //let c = vPrism.encodeChannelDelta(vDelta, v);
+            let c = vPrism.encodeChannelValueRainbow(v);
             //let c = vPrism.encodeChannelThreeBand(v);
 
             vPrism.refract({color: c, uid: 0, trial: r, chanid: ch, tind: t});

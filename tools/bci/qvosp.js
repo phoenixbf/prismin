@@ -118,6 +118,11 @@ class QVOSP extends QPrism {
         return col;
     }
 
+    encodeChannelValueRainbow(v){
+        let col = this._vRange.colormapShort(v);
+        return col;
+    }
+
     encodeChannelValue(v, bbw){
         let col = new Uint8Array(4);
         col[0] = 0;
@@ -153,6 +158,7 @@ class QVOSP extends QPrism {
 
         let A = new QAtlas();
         A.setDimensions(this._qsaW,this._qsaH);
+        A.clear(0x000000ff); // black
 
         A.imgoutfolder = this.outfolder;
         if (this.uid) A.imgbasename = "u"+this.uid + "-t"+trialid+"-qvs"+i;

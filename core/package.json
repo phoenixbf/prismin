@@ -10,7 +10,6 @@
   "license": "ISC",
   "dependencies": {
     "aabb-3d": "^0.1.0",
-    "clamp": "^1.0.1",
     "euclidean-distance": "^1.0.0",
     "fs": "0.0.1-security",
     "jimp": "^0.9.3"
