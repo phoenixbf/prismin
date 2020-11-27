@@ -4,6 +4,7 @@
     Author: Bruno Fanini (bruno.fanini__AT__gmail.com)
 
 ==========================================================================*/
+//const QVOSP = require("./../qvosp2");
 const QVOSP = require("./../qvosp");
 
 const commandLineArgs = require('command-line-args');
@@ -20,17 +21,22 @@ const optDefs = [
     { name: 'exp', type: String }, // experiment
     { name: 'patt', type: String },   // pattern
     { name: 'vrange', type: String },   // v range
+    { name: 'tsize', type: Number },
+    { name: 'channels', type: Number },
     { name: 'crop', type: Number },
     { name: 'resize', type: Number },
 ];
 const inargs = commandLineArgs(optDefs);
 
 // We instantiate our custom voltage prism
-let vPrism = new QVOSP(54000,64);
+let vPrism = new QVOSP(); //new QVOSP(54000,64);
+if (inargs.tsize)    vPrism._qsaW = inargs.tsize;
+if (inargs.channels) vPrism._qsaH = inargs.channels;
+
 if (inargs.uid){
     console.log("User #"+inargs.uid);
     vPrism.setUserID( parseInt(inargs.uid) );
-    }
+}
 
 if (inargs.exp) outFolder += inargs.exp+"/";
 vPrism.setOutFolder(outFolder);
@@ -41,7 +47,7 @@ vPrism.setVoltageRange(-200.0,200.0);
 if (inargs.resize) vPrism.setOutputResize(inargs.resize);
 if (inargs.crop)   vPrism.setOutputCropWidth(inargs.crop);
 
-let vRange = [undefined,undefined];
+let vRangeStats = [undefined,undefined];
 
 let inputCSVdata = [];
 let numRecords   = 0;
@@ -102,15 +108,19 @@ let processRecord = function(r){
             //console.log(vDelta);
 
             // Update volts range (stats)
-            if (!vRange[0] || v < vRange[0]) vRange[0] = v;
-            if (!vRange[1] || v > vRange[1]) vRange[1] = v;
+            if (!vRangeStats[0] || v < vRangeStats[0]) vRangeStats[0] = v;
+            if (!vRangeStats[1] || v > vRangeStats[1]) vRangeStats[1] = v;
 
-            //let c = vPrism.encodeChannelValue(v, false);
+
+            let c = vPrism.encodeChannelValue(v, true);
             //let c = vPrism.encodeChannelDelta(vDelta, v);
-            let c = vPrism.encodeChannelValueRainbow(v);
+            //let c = vPrism.encodeChannelValueRainbow(v);
             //let c = vPrism.encodeChannelThreeBand(v);
 
             vPrism.refract({color: c, uid: 0, trial: r, chanid: ch, tind: t});
+
+            //vPrism.refract({value: v, trial: r, chanid: ch});
+
             vPrev = v;
         }     
     }
@@ -121,7 +131,7 @@ let processRecord = function(r){
 let processAll = function(){
     for (let r in inputCSVdata) processRecord(r);
 
-    console.log("v RANGE: "+vRange);
+    console.log("v RANGE: "+vRangeStats);
     vPrism.bake();
 };
 

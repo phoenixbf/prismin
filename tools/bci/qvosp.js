@@ -11,7 +11,7 @@ const QPrism = require('../../core/qprism');
 const QRange = require('../../core/qrange');
 
 const QSA_STD_TIME_RES = 4096;
-const QSA_STD_CHANNELS = 16;
+const QSA_STD_CHANNELS = 64;
 
 class QVOSP extends QPrism {
     constructor(time_res, max_channels){
@@ -197,7 +197,10 @@ class QVOSP extends QPrism {
                     let A = T.pages[p];
                     console.log("Baking data for trial #"+t+" into QVS #"+p);
 
-                    if (this._wResize > 0) A.resize(this._wResize, this._qsaH);
+                    if (this._wResize > 0){
+                        A.resize(this._wResize, this._qsaH);
+                        console.log("Resized to "+this._wResize);
+                    }
 
                     if (this._wCrop > 0.0){
                         let aw = A.getDimensions().w;
@@ -206,7 +209,8 @@ class QVOSP extends QPrism {
                         let cutw = aw - (aw * this._wCrop * 2.0);
 
                         A.crop(cutstart,0, cutw,ah);
-                        }
+                        console.log("Cropped to "+this._wCrop);
+                    }
 
                     A.bake();
                 }
