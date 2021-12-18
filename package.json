@@ -1,0 +1,40 @@
+{
+  "name": "prismin",
+  "version": "1.0.0",
+  "description": "",
+  "main": "qencoder.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Bruno Fanini",
+  "license": "GPL-3.0-only",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/phoenixbf/prismin"
+  },
+  "keywords": [
+    "nodejs",
+    "javascript",
+    "image",
+    "encoding",
+    "analytics",
+    "session",
+    "layout",
+    "GPU",
+    "image processing",
+    "signal processing",
+    "image-based",
+    "data encoding"
+  ],
+  "dependencies": {
+    "aabb-3d": "^0.1.0",
+    "command-line-args": "^5.2.0",
+    "csv-parser": "^3.0.0",
+    "euclidean-distance": "^1.0.0",
+    "get-json": "^1.0.1",
+    "glob": "^7.2.0",
+    "fast-glob": "^3.2.7",
+    "jimp": "^0.16.1",
+    "path": "^0.12.7"
+  }
+}

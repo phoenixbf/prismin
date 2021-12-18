@@ -60,7 +60,11 @@ typings/
 # next.js build output
 .next
 
-#Custom PRISMIN
+# exclude
 _OUT
 *.psd
 _cov_series.json
+
+# Custom PRISMIN tools
+/tools/custom/*
+!/tools/custom/README.txt

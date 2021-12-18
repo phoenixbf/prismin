@@ -1,0 +1,2 @@
+This folder contains node.js tools leveraging on PRISMIN components to encode various data into images
+For custom tools (see "custom" sub-folder) you should provide package.json with dependencies (see built-in tools structure)
