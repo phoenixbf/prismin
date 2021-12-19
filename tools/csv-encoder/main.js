@@ -57,7 +57,7 @@ let loadCSV = function(filepath, onComplete){
             if (numLoadingRecords <= 0) onAllRecordsLoaded();
 
             if (onComplete) onComplete();
-            }); 
+        }); 
 };
 
 // Fired when all records loaded
@@ -83,14 +83,14 @@ let processUserRecord = function(u){
             time: t,
             tm: 10.0,
             uid: u
-            };
+        };
 
         Encoder.volumes.forEach(V => {
             args.color = V.encodeLocationToColor(pos);
             if (args.color) V.refract(args);
-            });
+        });
 
-        }
+    }
     console.log("Record "+u+" processed.");
 };
 
@@ -111,14 +111,15 @@ Encoder.addVolumesFromJSON(inargs.vol, ()=>{
         let P = new QASP(4096,512);
         P.outfolder = outFolder;
         V.addPrism(P);
-        }   
+    }   
 });
 
 // Load input CSVs
 if (inargs.csv) loadCSV(inargs.csv);
+
 if (inargs.csvdir){
     let files = glob.sync(inargs.csvdir+'*.csv');
     for (let f = 0; f < files.length; f++){
         loadCSV( files[f] );
-        }
+    }
 }
