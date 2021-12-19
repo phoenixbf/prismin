@@ -66,9 +66,13 @@ let run = function (){
 
             //console.log(sn);
 
+            let day = undefined;
+            let prevday = undefined;
+
             // For each day
             for (let i = startDay; i < numDays; i++){
-                const day = state[i];
+                day = state[i];
+                if (i>0) prevday = state[i-1];
 
                 let d = parseInt(day.deaths);
                 let c = parseInt(day.confirmed);
@@ -76,9 +80,11 @@ let run = function (){
 
                 // Find min,max deltas
                 if (bDelta && i>0){
-                    let Dd = parseInt(d - state[i-1].deaths);
-                    let Dc = parseInt(c - state[i-1].confirmed);
-                    let Dr = parseInt(r - state[i-1].recovered);
+                    let Dd = parseInt(d - prevday.deaths);
+                    let Dc = parseInt(c - prevday.confirmed);
+                    let Dr = parseInt(r - prevday.recovered);
+
+                    //console.log(Dc);
 /* Global
                     if (Dd < covPrism.pRangeDelta.min) covPrism.pRangeDelta.setMin(Dd);
                     if (Dc < covPrism.pRangeDelta.min) covPrism.pRangeDelta.setMin(Dc);
@@ -96,7 +102,7 @@ let run = function (){
 
                     if (Dr < covPrism.deltaRecovered.min) covPrism.deltaRecovered.setMin(Dr);
                     if (Dr > covPrism.deltaRecovered.max) covPrism.deltaRecovered.setMax(Dr);
-                    }
+                }
 /* Global
                 if (d < covPrism.pRange.min) covPrism.pRange.setMin(d);
                 if (c < covPrism.pRange.min) covPrism.pRange.setMin(c);
@@ -121,16 +127,16 @@ let run = function (){
         numStates++;
         }
 
-    console.log("Range Confirmed: "+covPrism.rangeConfirmed);
-    console.log("Range Deaths: "+covPrism.rangeDeaths);
-    console.log("Range Recovered: "+covPrism.rangeRecovered);
+    console.log("Range Confirmed: "+covPrism.rangeConfirmed.stringify());
+    console.log("Range Deaths: "+covPrism.rangeDeaths.stringify());
+    console.log("Range Recovered: "+covPrism.rangeRecovered.stringify());
     console.log("Num. days: "+numDays);
 
     if (bDelta){
-        console.log("Delta confirmed: "+covPrism.deltaConfirmed);
-        console.log("Delta deaths: "+covPrism.deltaDeaths);
-        console.log("Delta recovered: "+covPrism.deltaRecovered);
-        }
+        console.log("Delta confirmed: "+covPrism.deltaConfirmed.stringify());
+        console.log("Delta deaths: "+covPrism.deltaDeaths.stringify());
+        console.log("Delta recovered: "+covPrism.deltaRecovered.stringify());
+    }
     
     // Resize COV-QSA
     covPrism.setDimensions(numDays,numStates);
@@ -143,24 +149,26 @@ let run = function (){
         //if (!inargs.state) console.log(sn);
 
         if (matchingStates.length<1 || matchingStates.indexOf(sn) > -1){
+            let prevday = undefined;
+            let day = undefined;
+
             for (let i = startDay; i < numDays; i++){
-                const day = state[i];
-                let prevday;
-                if (i===0) prevday = day;
-                else prevday = state[i-1];
+                day = state[i];
+                if (i>0) prevday = state[i-1];
 
                 let confirmed = parseInt(day.confirmed);
                 let deaths    = parseInt(day.deaths);
                 let recovered = parseInt(day.recovered);
 
-                let dconfirmed = parseInt(day.confirmed - prevday.confirmed);
-                let ddeaths    = parseInt(day.deaths - prevday.deaths);
-                let drecovered = parseInt(day.recovered - prevday.recovered);
-
-                //if (drecovered <0) console.log(drecovered);
-
                 let c;
-                if (bDelta) c = covPrism.encodeData( dconfirmed, ddeaths, drecovered, true);
+
+                if (prevday !== undefined && bDelta){
+                    let dconfirmed = parseInt(day.confirmed - prevday.confirmed);
+                    let ddeaths    = parseInt(day.deaths - prevday.deaths);
+                    let drecovered = parseInt(day.recovered - prevday.recovered);
+
+                    c = covPrism.encodeData( dconfirmed, ddeaths, drecovered, true);
+                }
                 else c = covPrism.encodeData( confirmed, deaths, recovered, false);
 
                 covPrism.refract({tind: i, color: c, sid: sind});

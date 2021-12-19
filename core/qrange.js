@@ -14,17 +14,33 @@ class QRange {
         this.max   = b;
         this.delta = (b-a);
 
+        // Defaults to 8-bit
+        this.bitdepth = 8;
+        this._vmax    = 255.0;
+
         if (this.delta <= 0.0) console.log("WARN: invalid range");
     }
 
     setMin(a){
         this.min = a;
         this.delta = (this.max - a);
+
+        return this;
     }
 
     setMax(b){
         this.max   = b;
         this.delta = (b - this.min);
+
+        return this;
+    }
+
+    getDelta(){
+        return this.delta;
+    }
+
+    stringify(){
+        return "["+this.min+","+this.max+"]";
     }
 
     // get normalized value (no bounds check)
@@ -42,11 +58,22 @@ class QRange {
         return e;
     }
 
-    // 8bit quantization
+    // Set bit-depth (default = 8)
+    setBitDepth(bitdepth){
+        if (bitdepth === undefined) return this;
+        if (bitdepth < 0) return this;
+
+        this.bitdepth = bitdepth;
+        this._vmax    = (1 << bitdepth) - 1;
+
+        return this;
+    }
+
+    // Quantize a value depending on current bit-depth
     quantize(v){
         let e = this.getClampedNorm(v);
 
-        return parseInt(e * 255.0);
+        return parseInt(e * this._vmax);
     }
 
     // adapted from https://www.particleincell.com/2014/colormap/
