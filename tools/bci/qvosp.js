@@ -11,7 +11,7 @@ const QPrism = require('../../core/qprism');
 const QRange = require('../../core/qrange');
 
 const QSA_STD_TIME_RES = 4096;
-const QSA_STD_CHANNELS = 64;
+const QSA_STD_CHANNELS = 62;
 
 class QVOSP extends QPrism {
     constructor(time_res, max_channels){
@@ -111,7 +111,7 @@ class QVOSP extends QPrism {
             col[0] = this._vRangeHalfPos.quantize(-d); //this.quantizeInRange(-d, R);
         }
 
-        if (v){
+        if (v !== undefined){
             col[2] = this._vRange.quantize(v); //this.quantizeInRange(v, this._vRange);
         }
 

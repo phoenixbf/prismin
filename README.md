@@ -11,9 +11,8 @@ The framework - based on [Node.js](https://nodejs.org/) - provides **Interaction
 The image-based approach offers GPU-friendly encoding/decoding routines and easy implementations for WebGL shaders to visualize and inspect captured data targeting networked visual/immersive analytics. Furthermore, different atlas layouts allows direct manipulation and offline processing using common 2D image algorithms to extract, combine or compare user interactions.
 
 ## Getting started
-First install/update core library modules:
+First install/update core library modules, from root folder:
 ```
-cd core/
 npm update
 ```
 

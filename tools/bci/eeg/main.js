@@ -18,6 +18,7 @@ let outFolder = __dirname+"/_OUT/";
 const optDefs = [
     { name: 'csvdir', type: String},  // csv directory
     { name: 'uid', type: Number}, // user ID
+    { name: 'quant', type: String }, // quantization type: "grayscale", "delta" (defaults to short-rainbow)
     { name: 'exp', type: String }, // experiment
     { name: 'patt', type: String },   // pattern
     { name: 'vrange', type: String },   // v range
@@ -46,6 +47,7 @@ vPrism.setVoltageRange(-200.0,200.0);
 
 if (inargs.resize) vPrism.setOutputResize(inargs.resize);
 if (inargs.crop)   vPrism.setOutputCropWidth(inargs.crop);
+
 
 let vRangeStats = [undefined,undefined];
 
@@ -103,7 +105,7 @@ let processRecord = function(r){
             //console.log(t);
 
             let vDelta = undefined;
-            if (vPrev) vDelta = (v - vPrev);
+            if (vPrev !== undefined) vDelta = (v - vPrev);
 
             //console.log(vDelta);
 
@@ -111,11 +113,11 @@ let processRecord = function(r){
             if (!vRangeStats[0] || v < vRangeStats[0]) vRangeStats[0] = v;
             if (!vRangeStats[1] || v > vRangeStats[1]) vRangeStats[1] = v;
 
-
-            //let c = vPrism.encodeChannelValue(v, true);
-            //let c = vPrism.encodeChannelDelta(vDelta, v);
-            let c = vPrism.encodeChannelValueRainbow(v);
-            //let c = vPrism.encodeChannelThreeBand(v);
+            let c;
+            if (inargs.quant === undefined)   c = vPrism.encodeChannelValueRainbow(v);
+            if (inargs.quant === "grayscale") c = vPrism.encodeChannelValue(v, true);
+            if (inargs.quant === "delta")     c = vPrism.encodeChannelDelta(vDelta, undefined/*, v*/);
+            //c = vPrism.encodeChannelThreeBand(v);
 
             vPrism.refract({color: c, uid: 0, trial: r, chanid: ch, tind: t});
 
