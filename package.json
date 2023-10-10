@@ -31,10 +31,11 @@
     "command-line-args": "^5.2.1",
     "csv-parser": "^3.0.0",
     "euclidean-distance": "^1.0.0",
+    "fast-glob": "^3.3.1",
     "get-json": "^1.0.1",
-    "glob": "^8.0.3",
-    "fast-glob": "^3.2.12",
-    "jimp": "^0.16.2",
+    "glob": "^10.3.10",
+    "jimp": "^0.22.10",
+    "sharp": "^0.32.6",
     "path": "^0.12.7"
   }
 }
