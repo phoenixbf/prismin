@@ -2,9 +2,9 @@
 
 ![Test Image 1](./res/prismin-header.png)
 
-The PRISMIN (Processing and transfeR of Interaction States and Mappings through Image-based eNcoding) framework, allows to encode users' interaction states and mappings into compact and lightweight images, easily *manipulable* and *transferable* between peers in networked contexts. It is designed and developed by B. Fanini (CNR ISPC)
+The PRISMIN (Processing and transfeR of Interaction States and Mappings through Image-based eNcoding) framework, allows to encode users' interaction states and mappings into compact and lightweight images, easily *manipulable* and *transferable* between peers in networked contexts. The framework - designed and developed by B. Fanini (CNR ISPC) - is based on [Node.js](https://nodejs.org/): it can be used to develop and deploy dedicated services targeting specific scenarios and research infrastructures.
 
-The framework - based on [Node.js](https://nodejs.org/) - provides **Interaction Prisms** (`QPrism class`) that can be used to *refract* interaction states and *bake* them into 2D images (atlases), as well as runtime accessories like **Interaction Volumes** (`QVolume class`) that can be arranged and deployed in virtual 3D scenes to capture or influence user interactions within specific areas.
+PRISMIN offers **Interaction Prisms** (`QPrism class`) that can be used to *refract* interaction states and *bake* them into 2D images (atlases), as well as runtime accessories like **Interaction Volumes** (`QVolume class`) that can be arranged and deployed in virtual 3D scenes to capture or influence user interactions within specific areas.
 
 ![Test Image 1](./res/prismin-banner-h.jpg)
 
