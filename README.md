@@ -2,7 +2,7 @@
 
 ![Test Image 1](./res/prismin-header.png)
 
-The PRISMIN (Processing and transfeR of Interaction States and Mappings through Image-based eNcoding) framework, allows to encode users' interaction states and mappings into compact and lightweight images, easily *manipulable* and *transferable* between peers in networked contexts.
+The PRISMIN (Processing and transfeR of Interaction States and Mappings through Image-based eNcoding) framework, allows to encode users' interaction states and mappings into compact and lightweight images, easily *manipulable* and *transferable* between peers in networked contexts. It is designed and developed by B. Fanini (CNR ISPC)
 
 The framework - based on [Node.js](https://nodejs.org/) - provides **Interaction Volumes** (`QVolume class`) as runtime accessories that can be arranged and deployed in virtual 3D scenes to capture or influence user interactions within specific areas. **Interaction Prisms** (`QPrism class`) can be used to *refract* interaction states and *bake* them into images.
 
@@ -13,7 +13,7 @@ The image-based approach offers GPU-friendly encoding/decoding routines and easy
 ## Getting started
 First install/update core library modules, from root folder:
 ```
-npm update
+npm install
 ```
 
 Then, test out different built-in tools (see specific READMEs):
