@@ -28,14 +28,14 @@
   ],
   "dependencies": {
     "aabb-3d": "^0.1.0",
-    "command-line-args": "^5.2.1",
-    "csv-parser": "^3.0.0",
+    "command-line-args": "^6.0.1",
+    "csv-parser": "^3.2.0",
     "euclidean-distance": "^1.0.0",
-    "fast-glob": "^3.3.1",
-    "get-json": "^1.0.1",
-    "glob": "^10.3.10",
-    "jimp": "^0.22.10",
-    "sharp": "^0.32.6",
+    "fast-glob": "^3.3.3",
+    "get-json": "^1.1.0",
+    "glob": "^11.0.3",
+    "jimp": "^1.6.0",
+    "sharp": "^0.34.4",
     "path": "^0.12.7"
   }
 }
